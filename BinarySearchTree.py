@@ -66,7 +66,7 @@ class BST:
             return self._search(val, cur_node.left)                 # move to the next node
         elif val > cur_node.value and cur_node.right is not None:
             return self._search(val, cur_node.right)                # move to the next node
-        else: return False # print(f"{val} is not in the tree!")
+        return False # print(f"{val} is not in the tree!")
 
     def find(self, value):      # returns the node with specified input value
         if self.root is not None:
@@ -151,13 +151,20 @@ class Function:
         print(f"tree height: {str(self.tree.height())}")
         print(self.p_list)
         search_num = input("Enter price you want to check: ")
-        while True:
-            print(self.tree.search(float(search_num)))
+        do = True
+        while do == True:
+            self.tree.search(float(search_num))
+            
+            if self.tree.search(float(search_num)) is not True:
+                print(f"{search_num} is not in the tree!")
+            else:
+                print(f"{search_num} is in the tree!")
+            
             desire = input("Do you want to continue searching? (Y/N): ")
             if desire == 'Y' or desire == 'y':
                 search_num = input("Enter price you want to check: ")
             else:
-                break
+                do = False
         
 #if __name__ == '__main__':
 #    Function()
