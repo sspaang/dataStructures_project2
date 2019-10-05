@@ -61,12 +61,12 @@ class BST:
 
     def _search(self, val, cur_node):
         if val == cur_node.value:
-            return print(f"{val} is in the tree!")
+            return print(f"{val} is in the tree!")      # ใน project แก้เป็น True
         elif val < cur_node.value and cur_node.left is not None:
             return self._search(val, cur_node.left)                 # move to the next node
         elif val > cur_node.value and cur_node.right is not None:
             return self._search(val, cur_node.right)                # move to the next node
-        else: return print(f"{val} is not in the tree!")
+        else: return print(f"{val} is not in the tree!") # ใน project แก้เป็น False
 
     def find(self, value):      # returns the node with specified input value
         if self.root is not None:
