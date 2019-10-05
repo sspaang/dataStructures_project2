@@ -138,18 +138,6 @@ class BST:
         else:        
             return str(self.inorder(node.left)) + " " + str(node.value) + " " + str(self.inorder(node.right))
 
-    def postorder(self, node):
-        if node is None:
-            return ""
-        else:
-            return str(self.postorder(node.left)) + " " + str(self.postorder(node.right)) + " " + str(node.value)
-
-    def preorder(self, node):
-        if node is None:
-            return ""
-        else:
-            return str(node.value) + " " + str(self.preorder(node.left)) + " " + str(self.preorder(node.right))
-
 class Function:
     def __init__(self):
         self.tree = BST()
@@ -162,8 +150,14 @@ class Function:
 
         print(f"tree height: {str(self.tree.height())}")
         print(self.p_list)
-        self.search_num = input("Enter price you want to check: ")
+        search_num = input("Enter price you want to check: ")
+        while True:
+            self.tree.search(float(search_num))
+            desire = input("Do you want to continue searching? (Y/N)")
+            if desire == 'Y' or desire == 'y':
+                search_num = input("Enter price you want to check: ")
+            else:
+                break
         
-
 #if __name__ == '__main__':
 #    Function()
