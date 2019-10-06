@@ -1,3 +1,10 @@
+""" NOTE: Use this as a library 
+! HOW TO USE: ในไฟล์หลัก ใช้ from name_of_this_file import * 
+! ตัวอย่าง: from BinarySearchTree import * 
+! เรียกใช้ได้เฉพาะฟังก์ชันที่ไม่มี _ หน้าชื่อฟังก์ชัน 
+! ต้องมีไฟล์นี้อยู่ในโฟลเดอร์เดียวกับไฟล์หลักด้วยนะ
+"""
+
 class Node:
     def __init__(self, val):
         self.value = val
@@ -137,34 +144,3 @@ class BST:
             return ""       # stop
         else:        
             return str(self.inorder(node.left)) + " " + str(node.value) + " " + str(self.inorder(node.right))
-
-class Function:
-    def __init__(self):
-        self.tree = BST()
-        self.p_list = []
-        self.price = input("Enter number of money to auction: ")
-        while (self.price != 'q'):
-            self.tree.insert(float(self.price))
-            self.p_list.append(float(self.price))
-            self.price = input("Enter number of money to auction: ")
-
-        print(f"tree height: {str(self.tree.height())}")
-        print(self.p_list)
-        search_num = input("Enter price you want to check: ")
-        do = True
-        while do == True:
-            self.tree.search(float(search_num))
-            
-            if self.tree.search(float(search_num)) is not True:
-                print(f"{search_num} is not in the tree!")
-            else:
-                print(f"{search_num} is in the tree!")
-            
-            desire = input("Do you want to continue searching? (Y/N): ")
-            if desire == 'Y' or desire == 'y':
-                search_num = input("Enter price you want to check: ")
-            else:
-                do = False
-        
-#if __name__ == '__main__':
-#    Function()
