@@ -14,6 +14,10 @@ def ipwindow():
     ip_canvas.pack()
     ip_window.resizable(height=False, width=False)
 
+    #photo_file = os.path.join(THIS_FOLDER, 'rsz_1rsz_iphone11.png')
+    #img = PhotoImage(file=photo_file)
+    #ip_canvas.create_image(WIDTH/2, 0, image=img)
+
     def insert_price():
         input_price = ip_entry.get()
         if float(input_price) < 14000:
