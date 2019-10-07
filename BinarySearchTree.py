@@ -2,7 +2,7 @@
 ! HOW TO USE: ในไฟล์หลัก ใช้ from name_of_this_file import * 
 ! ตัวอย่าง: from BinarySearchTree import * 
 ! เรียกใช้ได้เฉพาะฟังก์ชันที่ไม่มี _ หน้าชื่อฟังก์ชัน 
-! ต้องมีไฟล์นี้อยู่ในโฟลเดอร์เดียวกับไฟล์หลักด้วยนะ
+! ต้องมีไฟล์นี้อยู่ในโฟลเดอร์เดียวกับไฟล์หลักด้วย
 """
 
 class Node:
@@ -21,7 +21,7 @@ class BST:
             print(f"{val} is the root.")
         else:
             self._insert(val, self.root)      # recursive
-        print(f"{val} has been added.")
+            print(f"{val} has been added.")
 
     def _insert(self, value, cur_node):   # private function
         if value < cur_node.value:
@@ -35,7 +35,7 @@ class BST:
             else:
                 self._insert(value, cur_node.right)
         else:
-            print("The value already in the tree!")
+            print(f"{value} already in the tree!")
 
     def print_tree(self):
         if self.root is not None:

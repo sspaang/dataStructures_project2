@@ -20,11 +20,10 @@ def ipwindow():
         else:
             ipPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
-
-            fr = open(ip_auction_price, 'a')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{float(input_price)};')
-            fr.close
-
+            if tree.search(float(input_price)) != True:
+                fr = open(ip_auction_price, 'a')    #เขียนต่อท้ายไฟล์เดิม
+                fr.write(f'{float(input_price)};')
+                fr.close()
         ip_entry.delete(0, 'end')
 
     def price_search():
@@ -114,11 +113,10 @@ def nes_window():
         else:
             macPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
-
-            fr = open(mac_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{float(input_price)};')
-            fr.close
-
+            if tree.search(float(input_price)) != True:
+                fr = open(mac_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+                fr.write(f'{float(input_price)};')
+                fr.close()
         mac_entry.delete(0, 'end')
 
     def price_search():
@@ -205,11 +203,10 @@ def pswindow():
         else:
             psPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
-
-            fr = open(ps_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{float(input_price)};')
-            fr.close
-
+            if tree.search(float(input_price)) != True:
+                fr = open(ps_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+                fr.write(f'{float(input_price)};')
+                fr.close()
         ps_entry.delete(0, 'end')
 
     def price_search():
@@ -296,11 +293,10 @@ def wtwindow():
         else:
             wtPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
-
-            fr = open(wt_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{float(input_price)};')
-            fr.close
-
+            if tree.search(float(input_price)) != True:
+                fr = open(wt_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+                fr.write(f'{float(input_price)};')
+                fr.close()
         wt_entry.delete(0, 'end')
 
     def price_search():
@@ -387,11 +383,10 @@ def neswindow():
         else:
             nesPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
-
-            fr = open(nes_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{float(input_price)};')
-            fr.close
-
+            if tree.search(float(input_price)) != True:
+                fr = open(nes_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+                fr.write(f'{float(input_price)};')
+                fr.close()
         nes_entry.delete(0, 'end')
 
     def price_search():
