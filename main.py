@@ -3,7 +3,6 @@ from PIL import Image, ImageTk
 from BinarySearchTree import *
 from tkinter import messagebox
 import os
-#from iphone_window import ipwindow
 
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,10 +12,6 @@ def ipwindow():
     ip_canvas = Canvas(ip_window, height=HEIGHT, width=WIDTH)
     ip_canvas.pack()
     ip_window.resizable(height=False, width=False)
-
-    #photo_file = os.path.join(THIS_FOLDER, 'rsz_1rsz_iphone11.png')
-    #img = PhotoImage(file=photo_file)
-    #ip_canvas.create_image(WIDTH/2, 0, image=img)
 
     def insert_price():
         input_price = ip_entry.get()
@@ -488,37 +483,57 @@ home.resizable(height=False, width=False)
 head_lbl = Label(home, text="ดาต้า 8 การประมูล", bg="orange", fg="white")
 subhead_lbl = Label(home, text='รายการสินค้า')
 head_lbl.place(x=300, y=30)
-subhead_lbl.place(x=50, y=100)
+subhead_lbl.place(x=50+100, y=100)
 
 # iPhone layout
+ip_photo_file = os.path.join(THIS_FOLDER, 'rsz_1rsz_iphone11.png')
+img1 = PhotoImage(file=ip_photo_file)
+canvas.create_image(80, 170, image=img1)
+
 iphone_button = Button(text="iPhone", bd=0, command=ipwindow)
-iphone_button.place(x=50,y=160)
+iphone_button.place(x=50+100,y=160+10)
 iphone_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=ipwindow)
-iphone_price_button.place(x=550, y=160)
+iphone_price_button.place(x=550, y=160+10)
 
 # Macbook layout
+mac_photo_file = os.path.join(THIS_FOLDER, 'rsz_macpro.png')
+img2 = PhotoImage(file=mac_photo_file)
+canvas.create_image(80, 170+90, image=img2)
+
 macbook_button = Button(text="Macbook", bd=0, command=nes_window)
-macbook_button.place(x=50, y=240)
+macbook_button.place(x=50+100, y=240+10)
 macbook_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=nes_window)
-macbook_price_button.place(x=550, y=240)
+macbook_price_button.place(x=550, y=240+10)
 
 # PlayStation layout
+ps_photo_file = os.path.join(THIS_FOLDER, 'rsz_1ps.png')
+img3 = PhotoImage(file=ps_photo_file)
+canvas.create_image(80, 260+80, image=img3)
+
 playstation_button = Button(text="PlayStation", bd=0, command=pswindow)
-playstation_button.place(x=50, y=320)
+playstation_button.place(x=50+100, y=320+10)
 playstation_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=pswindow)
-playstation_price_button.place(x=550, y=320)
+playstation_price_button.place(x=550, y=320+10)
 
 # Watch layout
+wt_photo_file = os.path.join(THIS_FOLDER, 'rsz_rm029.png')
+img4 = PhotoImage(file=wt_photo_file)
+canvas.create_image(80, 340+90, image=img4)
+
 watch_button = Button(text="Watch", bd=0, command=wtwindow)
-watch_button.place(x=50, y=400)
+watch_button.place(x=50+100, y=400+10)
 watch_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=wtwindow)
-watch_price_button.place(x=550, y=400)
+watch_price_button.place(x=550, y=400+10)
 
 # Nintendo layout
-nintendo_button = Button(text="Nintendo", bd=0, command=neswindow)
-nintendo_button.place(x=50, y=480)
+nin_photo_file = os.path.join(THIS_FOLDER, 'rsz_nin.png')
+img5 = PhotoImage(file=nin_photo_file)
+canvas.create_image(80, 420+80, image=img5)
+
+nintendo_button = Button(text="Nintendo Switch", bd=0, command=neswindow)
+nintendo_button.place(x=50+100, y=480+10)
 nintendo_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=neswindow)
-nintendo_price_button.place(x=550, y=480)
+nintendo_price_button.place(x=550, y=480+10)
 
 
 home.mainloop()
