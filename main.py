@@ -13,7 +13,6 @@ def ipwindow():
     ip_canvas = Canvas(ip_window, height=HEIGHT, width=WIDTH)
     ip_canvas.pack()
     ip_window.resizable(height=False, width=False)
-    ip_file = os.path.join(THIS_FOLDER, 'iphone11.gif')
 
     def insert_price():
         input_price = ip_entry.get()
@@ -47,11 +46,6 @@ def ipwindow():
 
     tree = BST()
     ip_auction_price = os.path.join(THIS_FOLDER, 'ipAuction.txt')
-
-    ip_pic = Image.open(ip_file)
-    ip_photo = ImageTk.PhotoImage(ip_pic)
-    #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
-    #pic1 = Label(image=photo).pack()
 
     # Details
     ip_head = Label(ip_window, text="โทรศัพท์ยี่ห้อ Apple\nรุ่น iPhone")
@@ -111,10 +105,6 @@ def nes_window():
     mac_canvas = Canvas(mac_window, height=HEIGHT, width=WIDTH)
     mac_canvas.pack()
     mac_window.resizable(height=False, width=False)
-    #mac_pic = Image.open("macbook.png")
-    #photo = ImageTk.PhotoImage(mac_pic)
-    #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
-    #pic1 = Label(image=photo).pack()
 
     ip_file = os.path.join(THIS_FOLDER, 'iphone11.gif')
 
@@ -208,10 +198,6 @@ def pswindow():
     ps_canvas = Canvas(ps_window, height=HEIGHT, width=WIDTH)
     ps_canvas.pack()
     ps_window.resizable(height=False, width=False)
-    #ps_pic = Image.open("ps.png")
-    #ps_photo = ImageTk.PhotoImage(ps_pic)
-    #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
-    #pic1 = Label(image=photo).pack()
 
     def insert_price():
         input_price = ps_entry.get()
@@ -303,10 +289,6 @@ def wtwindow():
     wt_canvas = Canvas(wt_window, height=HEIGHT, width=WIDTH)
     wt_canvas.pack()
     wt_window.resizable(height=False, width=False)
-    #wt_pic = Image.open("ps.png")
-    #wt_photo = ImageTk.PhotoImage(wt_pic)
-    #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
-    #pic1 = Label(image=photo).pack()
 
     def insert_price():
         input_price = wt_entry.get()
@@ -398,10 +380,6 @@ def neswindow():
     nes_canvas = Canvas(nes_window, height=HEIGHT, width=WIDTH)
     nes_canvas.pack()
     nes_window.resizable(height=False, width=False)
-    #nes_pic = Image.open("nes.png")
-    #nes_photo = ImageTk.PhotoImage(nes_pic)
-    #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
-    #pic1 = Label(image=photo).pack()
 
     def insert_price():
         input_price = nes_entry.get()
