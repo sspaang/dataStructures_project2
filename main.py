@@ -18,7 +18,7 @@ def ipwindow():
     def insert_price():
         input_price = ip_entry.get()
         if float(input_price) < 14000:
-            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 14000 บาท')
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 14,000 บาท')
         else:
             ipPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
@@ -105,7 +105,7 @@ def ipwindow():
 
     f.close()   #ปิดไฟล์
 
-def ps_window():
+def nes_window():
     mac_window = Toplevel()
     mac_window.title("Macbook")
     mac_canvas = Canvas(mac_window, height=HEIGHT, width=WIDTH)
@@ -121,7 +121,7 @@ def ps_window():
     def insert_price():
         input_price = mac_entry.get()
         if float(input_price) < 20000:
-            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 20000 บาท')
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 20,000 บาท')
         else:
             macPrice_listbox.insert(END, f"{float(input_price)}")
             bst_insert = tree.insert(float(input_price))
@@ -247,7 +247,7 @@ def pswindow():
     ps_auction_price = os.path.join(THIS_FOLDER, 'psAuction.txt')
 
     # Details
-    ps_head = Label(ps_window, text="เครื่องเล่นเกมส์ PlayStation\nรุ่น PlayStation5")
+    ps_head = Label(ps_window, text="เครื่องเล่นเกมส์ PlayStation\nรุ่น PlayStation 5")
     ps_head.place(x=240, y=40)
     ps_start = Label(ps_window, text="ราคาเริ่มต้น")
     ps_start.place(x=100, y=100)
@@ -308,18 +308,89 @@ def wtwindow():
     #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
     #pic1 = Label(image=photo).pack()
 
+    def insert_price():
+        input_price = wt_entry.get()
+        if float(input_price) < 2000000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 2,000,000 บาท')
+        else:
+            wtPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(wt_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{float(input_price)};')
+            fr.close
+
+        wt_entry.delete(0, 'end')
+
+    def price_search():
+        input_price = wtPriceSearchEntry.get()
+        if tree.search(float(input_price)) == True:
+            return wtPriceLabel.config(text=f'{input_price} มีอยู่ในระบบแล้ว', fg='green')
+        else:
+            return wtPriceLabel.config(text=f'{input_price} ยังไม่มีอยู่ในระบบ', fg='red')
+    
+    def onReturn(*args):
+        return insert_price()
+    
+    def onReturn_search(*args):
+        return price_search()
+
+    def on_mousewheel(*args):
+        return wtPrice_listbox.yview
+
+    tree = BST()
+    wt_auction_price = os.path.join(THIS_FOLDER, 'watchAuction.txt')
+
     # Details
     wt_head = Label(wt_window, text="นาฬิกา Richard Mille\nรุ่น RM 029")
     wt_head.place(x=240, y=40)
     wt_start = Label(wt_window, text="ราคาเริ่มต้น")
-    wt_start.place(x=100, y=150)
+    wt_start.place(x=100, y=100)
     wt_startp = Label(wt_window, text="2,000,000 บาท")
-    wt_startp.place(x=415, y=150)
+    wt_startp.place(x=415, y=100)
     # Bet
     wt_bet = Label(wt_window, text="ราคาที่ต้องการประมูล")
-    wt_bet.place(x=100, y=250)
+    wt_bet.place(x=100, y=150)
     wt_entry = Entry(wt_window, bd=3)
-    wt_entry.place(x=415, y=250)
+    wt_entry.place(x=415, y=150)
+    wt_entry.bind("<Return>", onReturn)
+
+    wtAuction_btn = Button(wt_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
+    wtAuction_btn.place(x=470, y=190)
+
+    wtPrice_listbox = Listbox(wt_window, height=6, width=30)
+    wtPrice_listbox.place(x=180+40, y=250)
+    yscroll = Scrollbar(wt_window, orient=VERTICAL, command=wtPrice_listbox.yview)
+    wtPrice_listbox.configure(yscrollcommand = yscroll.set)
+    yscroll.bind("<MouseWheel>", on_mousewheel)
+    yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    wtPriceSearchLabel = Label(wt_window, text='ตรวจสอบราคาประมูล')
+    wtPriceSearchLabel.place(x=100, y=410)
+
+    wtPriceSearchEntry = Entry(wt_window, bd=3)
+    wtPriceSearchEntry.place(x=415, y=410)
+    wtPriceSearchEntry.bind('<Return>', onReturn_search)
+
+    wtPriceSearchBtn = Button(wt_window, text='ตรวจสอบ', bg='pink', command=price_search)
+    wtPriceSearchBtn.place(x=470, y=460)
+
+    wtPriceLabel = Label(wt_window, text='')
+    wtPriceLabel.place(x=415, y=510)
+
+    f = open(wt_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+                wtPrice_listbox.insert(END, f'{float(each_price)}')
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
+
+    wt_entry.focus()
+
+    f.close()   #ปิดไฟล์
 
 def neswindow():
     nes_window = Toplevel()
@@ -327,23 +398,96 @@ def neswindow():
     nes_canvas = Canvas(nes_window, height=HEIGHT, width=WIDTH)
     nes_canvas.pack()
     nes_window.resizable(height=False, width=False)
-    nes_pic = Image.open("nes.png")
+    #nes_pic = Image.open("nes.png")
     #nes_photo = ImageTk.PhotoImage(nes_pic)
     #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
     #pic1 = Label(image=photo).pack()
+
+    def insert_price():
+        input_price = nes_entry.get()
+        if float(input_price) < 6000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 6,000 บาท')
+        else:
+            nesPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(nes_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{float(input_price)};')
+            fr.close
+
+        nes_entry.delete(0, 'end')
+
+    def price_search():
+        input_price = nesPriceSearchEntry.get()
+        if tree.search(float(input_price)) == True:
+            return nesPriceLabel.config(text=f'{input_price} มีอยู่ในระบบแล้ว', fg='green')
+        else:
+            return nesPriceLabel.config(text=f'{input_price} ยังไม่มีอยู่ในระบบ', fg='red')
+    
+    def onReturn(*args):
+        return insert_price()
+    
+    def onReturn_search(*args):
+        return price_search()
+
+    def on_mousewheel(*args):
+        return nesPrice_listbox.yview
+
+    tree = BST()
+    nes_auction_price = os.path.join(THIS_FOLDER, 'ninAuction.txt')
 
     # Details
     nes_head = Label(nes_window, text="เครื่องเล่นเกมส์ Nintendo\nรุ่น Nontendo Switch")
     nes_head.place(x=240, y=40)
     nes_start = Label(nes_window, text="ราคาเริ่มต้น")
-    nes_start.place(x=100, y=150)
+    nes_start.place(x=100, y=100)
     nes_startp = Label(nes_window, text="6,000 บาท")
-    nes_startp.place(x=415, y=150)
+    nes_startp.place(x=415, y=100)
     # Bet
     nes_bet = Label(nes_window, text="ราคาที่ต้องการประมูล")
-    nes_bet.place(x=100, y=250)
+    nes_bet.place(x=100, y=150)
     nes_entry = Entry(nes_window, bd=3)
-    nes_entry.place(x=415, y=250)
+    nes_entry.place(x=415, y=150)
+    nes_entry.bind("<Return>", onReturn)
+
+    nesAuction_btn = Button(nes_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
+    nesAuction_btn.place(x=470, y=190)
+
+    nesPrice_listbox = Listbox(nes_window, height=6, width=30)
+    nesPrice_listbox.place(x=180+40, y=250)
+    yscroll = Scrollbar(nes_window, orient=VERTICAL, command=nesPrice_listbox.yview)
+    nesPrice_listbox.configure(yscrollcommand = yscroll.set)
+    yscroll.bind("<MouseWheel>", on_mousewheel)
+    yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    nesPriceSearchLabel = Label(nes_window, text='ตรวจสอบราคาประมูล')
+    nesPriceSearchLabel.place(x=100, y=410)
+
+    nesPriceSearchEntry = Entry(nes_window, bd=3)
+    nesPriceSearchEntry.place(x=415, y=410)
+    nesPriceSearchEntry.bind('<Return>', onReturn_search)
+
+    nesPriceSearchBtn = Button(nes_window, text='ตรวจสอบ', bg='pink', command=price_search)
+    nesPriceSearchBtn.place(x=470, y=460)
+
+    nesPriceLabel = Label(nes_window, text='')
+    nesPriceLabel.place(x=415, y=510)
+
+    f = open(nes_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+                nesPrice_listbox.insert(END, f'{float(each_price)}')
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
+
+    nes_entry.focus()
+
+    f.close()   #ปิดไฟล์
+
+""" ------------------------------------------------------------------------------------------------------------------ """
 
 WIDTH = 800
 HEIGHT = 600
@@ -371,9 +515,9 @@ iphone_price_button = Button(text="เช็คราคาสินค้า", 
 iphone_price_button.place(x=550, y=160)
 
 # Macbook layout
-macbook_button = Button(text="Macbook", bd=0, command=ps_window)
+macbook_button = Button(text="Macbook", bd=0, command=nes_window)
 macbook_button.place(x=50, y=240)
-macbook_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=ps_window)
+macbook_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=nes_window)
 macbook_price_button.place(x=550, y=240)
 
 # PlayStation layout
