@@ -105,29 +105,102 @@ def ipwindow():
 
     f.close()   #ปิดไฟล์
 
-def macwindow():
+def ps_window():
     mac_window = Toplevel()
     mac_window.title("Macbook")
     mac_canvas = Canvas(mac_window, height=HEIGHT, width=WIDTH)
     mac_canvas.pack()
     mac_window.resizable(height=False, width=False)
-    mac_pic = Image.open("macbook.png")
-    photo = ImageTk.PhotoImage(mac_pic)
+    #mac_pic = Image.open("macbook.png")
+    #photo = ImageTk.PhotoImage(mac_pic)
     #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
     #pic1 = Label(image=photo).pack()
+
+    ip_file = os.path.join(THIS_FOLDER, 'iphone11.gif')
+
+    def insert_price():
+        input_price = mac_entry.get()
+        if float(input_price) < 20000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 20000 บาท')
+        else:
+            macPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(mac_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{float(input_price)};')
+            fr.close
+
+        mac_entry.delete(0, 'end')
+
+    def price_search():
+        input_price = macPriceSearchEntry.get()
+        if tree.search(float(input_price)) == True:
+            return macPriceLabel.config(text=f'{input_price} มีอยู่ในระบบแล้ว', fg='green')
+        else:
+            return macPriceLabel.config(text=f'{input_price} ยังไม่มีอยู่ในระบบ', fg='red')
+    
+    def onReturn(*args):
+        return insert_price()
+    
+    def onReturn_search(*args):
+        return price_search()
+
+    def on_mousewheel(*args):
+        return macPrice_listbox.yview
+
+    tree = BST()
+    mac_auction_price = os.path.join(THIS_FOLDER, 'macAuction.txt')
 
     # Details
     mac_head = Label(mac_window, text="แลปท็อปยี่ห้อ Apple\nรุ่น Macbook Pro")
     mac_head.place(x=285, y=40)
     mac_start = Label(mac_window, text="ราคาเริ่มต้น")
-    mac_start.place(x=100, y=150)
+    mac_start.place(x=100, y=100)
     mac_startp = Label(mac_window, text="20,000 บาท")
-    mac_startp.place(x=415, y=150)
+    mac_startp.place(x=415, y=100)
     # Bet
     mac_bet = Label(mac_window, text="ราคาที่ต้องการประมูล")
-    mac_bet.place(x=100, y=250)
+    mac_bet.place(x=100, y=150)
     mac_entry = Entry(mac_window, bd=3)
-    mac_entry.place(x=415, y=250)
+    mac_entry.place(x=415, y=150)
+    mac_entry.bind("<Return>", onReturn)
+
+    macAuction_btn = Button(mac_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
+    macAuction_btn.place(x=470, y=190)
+
+    macPrice_listbox = Listbox(mac_window, height=6, width=30)
+    macPrice_listbox.place(x=180+40, y=250)
+    yscroll = Scrollbar(mac_window, orient=VERTICAL, command=macPrice_listbox.yview)
+    macPrice_listbox.configure(yscrollcommand = yscroll.set)
+    yscroll.bind("<MouseWheel>", on_mousewheel)
+    yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    macPriceSearchLabel = Label(mac_window, text='ตรวจสอบราคาประมูล')
+    macPriceSearchLabel.place(x=100, y=410)
+
+    macPriceSearchEntry = Entry(mac_window, bd=3)
+    macPriceSearchEntry.place(x=415, y=410)
+    macPriceSearchEntry.bind('<Return>', onReturn_search)
+
+    macPriceSearchBtn = Button(mac_window, text='ตรวจสอบ', bg='pink', command=price_search)
+    macPriceSearchBtn.place(x=470, y=460)
+
+    macPriceLabel = Label(mac_window, text='')
+    macPriceLabel.place(x=415, y=510)
+
+    f = open(mac_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+                macPrice_listbox.insert(END, f'{float(each_price)}')
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
+
+    mac_entry.focus()
+
+    f.close()   #ปิดไฟล์
 
 def pswindow():
     ps_window = Toplevel()
@@ -135,23 +208,94 @@ def pswindow():
     ps_canvas = Canvas(ps_window, height=HEIGHT, width=WIDTH)
     ps_canvas.pack()
     ps_window.resizable(height=False, width=False)
-    ps_pic = Image.open("ps.png")
-    ps_photo = ImageTk.PhotoImage(ps_pic)
+    #ps_pic = Image.open("ps.png")
+    #ps_photo = ImageTk.PhotoImage(ps_pic)
     #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
     #pic1 = Label(image=photo).pack()
+
+    def insert_price():
+        input_price = ps_entry.get()
+        if float(input_price) < 8000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 8000 บาท')
+        else:
+            psPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(ps_auction_price, 'a+')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{float(input_price)};')
+            fr.close
+
+        ps_entry.delete(0, 'end')
+
+    def price_search():
+        input_price = psPriceSearchEntry.get()
+        if tree.search(float(input_price)) == True:
+            return psPriceLabel.config(text=f'{input_price} มีอยู่ในระบบแล้ว', fg='green')
+        else:
+            return psPriceLabel.config(text=f'{input_price} ยังไม่มีอยู่ในระบบ', fg='red')
+    
+    def onReturn(*args):
+        return insert_price()
+    
+    def onReturn_search(*args):
+        return price_search()
+
+    def on_mousewheel(*args):
+        return psPrice_listbox.yview
+
+    tree = BST()
+    ps_auction_price = os.path.join(THIS_FOLDER, 'psAuction.txt')
 
     # Details
     ps_head = Label(ps_window, text="เครื่องเล่นเกมส์ PlayStation\nรุ่น PlayStation5")
     ps_head.place(x=240, y=40)
     ps_start = Label(ps_window, text="ราคาเริ่มต้น")
-    ps_start.place(x=100, y=150)
+    ps_start.place(x=100, y=100)
     ps_startp = Label(ps_window, text="8,000 บาท")
-    ps_startp.place(x=415, y=150)
+    ps_startp.place(x=415, y=100)
     # Bet
     ps_bet = Label(ps_window, text="ราคาที่ต้องการประมูล")
-    ps_bet.place(x=100, y=250)
+    ps_bet.place(x=100, y=150)
     ps_entry = Entry(ps_window, bd=3)
-    ps_entry.place(x=415, y=250)
+    ps_entry.place(x=415, y=150)
+    ps_entry.bind("<Return>", onReturn)
+
+    psAuction_btn = Button(ps_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
+    psAuction_btn.place(x=470, y=190)
+
+    psPrice_listbox = Listbox(ps_window, height=6, width=30)
+    psPrice_listbox.place(x=180+40, y=250)
+    yscroll = Scrollbar(ps_window, orient=VERTICAL, command=psPrice_listbox.yview)
+    psPrice_listbox.configure(yscrollcommand = yscroll.set)
+    yscroll.bind("<MouseWheel>", on_mousewheel)
+    yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    psPriceSearchLabel = Label(ps_window, text='ตรวจสอบราคาประมูล')
+    psPriceSearchLabel.place(x=100, y=410)
+
+    psPriceSearchEntry = Entry(ps_window, bd=3)
+    psPriceSearchEntry.place(x=415, y=410)
+    psPriceSearchEntry.bind('<Return>', onReturn_search)
+
+    psPriceSearchBtn = Button(ps_window, text='ตรวจสอบ', bg='pink', command=price_search)
+    psPriceSearchBtn.place(x=470, y=460)
+
+    psPriceLabel = Label(ps_window, text='')
+    psPriceLabel.place(x=415, y=510)
+
+    f = open(ps_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+                psPrice_listbox.insert(END, f'{float(each_price)}')
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
+
+    ps_entry.focus()
+
+    f.close()   #ปิดไฟล์
 
 def wtwindow():
     wt_window = Toplevel()
@@ -227,9 +371,9 @@ iphone_price_button = Button(text="เช็คราคาสินค้า", 
 iphone_price_button.place(x=550, y=160)
 
 # Macbook layout
-macbook_button = Button(text="Macbook", bd=0, command=macwindow)
+macbook_button = Button(text="Macbook", bd=0, command=ps_window)
 macbook_button.place(x=50, y=240)
-macbook_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=macwindow)
+macbook_price_button = Button(text="เช็คราคาสินค้า", bg='green', command=ps_window)
 macbook_price_button.place(x=550, y=240)
 
 # PlayStation layout
