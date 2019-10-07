@@ -15,6 +15,36 @@ def ipwindow():
     ip_window.resizable(height=False, width=False)
     ip_file = os.path.join(THIS_FOLDER, 'iphone11.gif')
 
+    def insert_price():
+        input_price = ip_entry.get()
+        if float(input_price) < 14000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 14000 บาท')
+        else:
+            ipPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(ip_auction_price, 'a')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{float(input_price)};')
+            fr.close
+
+        ip_entry.delete(0, 'end')
+
+    def price_search():
+        input_price = ipPriceSearchEntry.get()
+        if tree.search(float(input_price)) == True:
+            return ipPriceLabel.config(text=f'{input_price} มีอยู่ในระบบแล้ว', fg='green')
+        else:
+            return ipPriceLabel.config(text=f'{input_price} ยังไม่มีอยู่ในระบบ', fg='red')
+    
+    def onReturn(*args):
+        return insert_price()
+    
+    def onReturn_search(*args):
+        return price_search()
+
+    def on_mousewheel(*args):
+        return ipPrice_listbox.yview
+
     tree = BST()
     ip_auction_price = os.path.join(THIS_FOLDER, 'ipAuction.txt')
 
@@ -30,26 +60,6 @@ def ipwindow():
     ip_start.place(x=100, y=100)
     ip_startp = Label(ip_window, text="14,000 บาท")
     ip_startp.place(x=415, y=100)
-
-    def insert_price():
-        input_price = ip_entry.get()
-        if float(input_price) < 14000:
-            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 14000 บาท')
-        else:
-            ipPrice_listbox.insert(END, f"{float(input_price)}")
-            bst_insert = tree.insert(float(input_price))
-
-            fr = open(ip_auction_price, 'a')    #เขียนต่อท้ายไฟล์เดิม
-            fr.write(f'{input_price};')
-            fr.close
-
-        ip_entry.delete(0, 'end')
-    
-    def onReturn(*args):
-        return insert_price()
-
-    def on_mousewheel(*args):
-        return ipPrice_listbox.yview
 
     # Bet
     ip_bet = Label(ip_window, text="ราคาที่ต้องการประมูล")
@@ -67,6 +77,19 @@ def ipwindow():
     ipPrice_listbox.configure(yscrollcommand = yscroll.set)
     yscroll.bind("<MouseWheel>", on_mousewheel)
     yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    ipPriceSearchLabel = Label(ip_window, text='ตรวจสอบราคาประมูล')
+    ipPriceSearchLabel.place(x=100, y=410)
+
+    ipPriceSearchEntry = Entry(ip_window, bd=3)
+    ipPriceSearchEntry.place(x=415, y=410)
+    ipPriceSearchEntry.bind('<Return>', onReturn_search)
+
+    ipPriceSearchBtn = Button(ip_window, text='ตรวจสอบ', bg='pink', command=price_search)
+    ipPriceSearchBtn.place(x=470, y=460)
+
+    ipPriceLabel = Label(ip_window, text='')
+    ipPriceLabel.place(x=415, y=510)
 
     f = open(ip_auction_price, 'r')
     for i in f:
