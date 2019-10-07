@@ -17,14 +17,6 @@ def ipwindow():
 
     tree = BST()
     ip_auction_price = os.path.join(THIS_FOLDER, 'ipAuction.txt')
-    f = open(ip_auction_price, 'r')
-    for i in f:
-        try:
-            price_list = i.split(";")   # List
-            for each_price in price_list:
-                tree.insert(float(each_price))
-        except ValueError as e:
-            print(f'Error -> {e} at {each_price}')
 
     ip_pic = Image.open(ip_file)
     ip_photo = ImageTk.PhotoImage(ip_pic)
@@ -35,9 +27,9 @@ def ipwindow():
     ip_head = Label(ip_window, text="โทรศัพท์ยี่ห้อ Apple\nรุ่น iPhone")
     ip_head.place(x=285, y=40)
     ip_start = Label(ip_window, text="ราคาเริ่มต้น")
-    ip_start.place(x=100, y=150)
+    ip_start.place(x=100, y=100)
     ip_startp = Label(ip_window, text="14,000 บาท")
-    ip_startp.place(x=415, y=150)
+    ip_startp.place(x=415, y=100)
 
     def insert_price():
         input_price = ip_entry.get()
@@ -61,20 +53,30 @@ def ipwindow():
 
     # Bet
     ip_bet = Label(ip_window, text="ราคาที่ต้องการประมูล")
-    ip_bet.place(x=100, y=250)
+    ip_bet.place(x=100, y=150)
     ip_entry = Entry(ip_window, bd=3)
-    ip_entry.place(x=415, y=250)
+    ip_entry.place(x=415, y=150)
     ip_entry.bind("<Return>", onReturn)
 
     ipAuction_btn = Button(ip_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
-    ipAuction_btn.place(x=470, y=300)
+    ipAuction_btn.place(x=470, y=190)
 
     ipPrice_listbox = Listbox(ip_window, height=6, width=30)
-    ipPrice_listbox.place(x=180, y=370)
+    ipPrice_listbox.place(x=180+40, y=250)
     yscroll = Scrollbar(ip_window, orient=VERTICAL, command=ipPrice_listbox.yview)
     ipPrice_listbox.configure(yscrollcommand = yscroll.set)
     yscroll.bind("<MouseWheel>", on_mousewheel)
-    yscroll.place(x=640, y=370, relheight=0.33)
+    yscroll.place(x=450+80, y=200+50, relheight=0.235)
+
+    f = open(ip_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+                ipPrice_listbox.insert(END, f'{float(each_price)}')
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
 
     ip_entry.focus()
 
@@ -181,7 +183,7 @@ HEIGHT = 600
 
 home = Tk()
 home.title("Aunction")
-home.option_add("*Font", "consolas 20")
+home.option_add("*Font", "consolas 14")
 
 # Window
 canvas = Canvas(home, height=HEIGHT, width=WIDTH)
