@@ -1,6 +1,11 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from iphone_window import ipwindow
+from BinarySearchTree import *
+from tkinter import messagebox
+import os
+#from iphone_window import ipwindow
+
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 def ipwindow():
     ip_window = Toplevel()
@@ -8,8 +13,21 @@ def ipwindow():
     ip_canvas = Canvas(ip_window, height=HEIGHT, width=WIDTH)
     ip_canvas.pack()
     ip_window.resizable(height=False, width=False)
-    #ip_pic = Image.open("iphone.png")
-    #ip_photo = ImageTk.PhotoImage(ip_pic)
+    ip_file = os.path.join(THIS_FOLDER, 'iphone11.gif')
+
+    tree = BST()
+    ip_auction_price = os.path.join(THIS_FOLDER, 'ipAuction.txt')
+    f = open(ip_auction_price, 'r')
+    for i in f:
+        try:
+            price_list = i.split(";")   # List
+            for each_price in price_list:
+                tree.insert(float(each_price))
+        except ValueError as e:
+            print(f'Error -> {e} at {each_price}')
+
+    ip_pic = Image.open(ip_file)
+    ip_photo = ImageTk.PhotoImage(ip_pic)
     #iphone_img = iphone_pic.resize((int(iphone_pic.width*.5), int(iphone_pic.height*.5)))
     #pic1 = Label(image=photo).pack()
 
@@ -20,11 +38,47 @@ def ipwindow():
     ip_start.place(x=100, y=150)
     ip_startp = Label(ip_window, text="14,000 บาท")
     ip_startp.place(x=415, y=150)
+
+    def insert_price():
+        input_price = ip_entry.get()
+        if float(input_price) < 14000:
+            msgBox = messagebox.showwarning(title='WARNING', message='กรุณาใส่ราคามากกว่า 14000 บาท')
+        else:
+            ipPrice_listbox.insert(END, f"{float(input_price)}")
+            bst_insert = tree.insert(float(input_price))
+
+            fr = open(ip_auction_price, 'a')    #เขียนต่อท้ายไฟล์เดิม
+            fr.write(f'{input_price};')
+            fr.close
+
+        ip_entry.delete(0, 'end')
+    
+    def onReturn(*args):
+        return insert_price()
+
+    def on_mousewheel(*args):
+        return ipPrice_listbox.yview
+
     # Bet
     ip_bet = Label(ip_window, text="ราคาที่ต้องการประมูล")
     ip_bet.place(x=100, y=250)
     ip_entry = Entry(ip_window, bd=3)
     ip_entry.place(x=415, y=250)
+    ip_entry.bind("<Return>", onReturn)
+
+    ipAuction_btn = Button(ip_window ,text='ลงราคาประมูล', bg="#40E0D0", command=insert_price)
+    ipAuction_btn.place(x=470, y=300)
+
+    ipPrice_listbox = Listbox(ip_window, height=6, width=30)
+    ipPrice_listbox.place(x=180, y=370)
+    yscroll = Scrollbar(ip_window, orient=VERTICAL, command=ipPrice_listbox.yview)
+    ipPrice_listbox.configure(yscrollcommand = yscroll.set)
+    yscroll.bind("<MouseWheel>", on_mousewheel)
+    yscroll.place(x=640, y=370, relheight=0.33)
+
+    ip_entry.focus()
+
+    f.close()   #ปิดไฟล์
 
 def macwindow():
     mac_window = Toplevel()
